@@ -6,3 +6,11 @@
 *.iml
 
 *.iws
+
+out/production/ExcelConverter/com/basereality/ExcelConverter/ExcelConverter.class
+
+*.class
+
+target/jar/ExcelConverter.jar
+
+target/dist/ExcelConverter.jar

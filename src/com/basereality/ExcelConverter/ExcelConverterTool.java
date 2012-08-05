@@ -15,7 +15,6 @@ public class ExcelConverterTool {
 
 	private static String numberMode = null;
 
-
 	/**
 	 * List of all the items that can be passed in to the program, java can't switch on strings properly.
 	 */
