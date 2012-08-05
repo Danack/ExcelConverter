@@ -37,7 +37,7 @@ public class ExcelConverterTool {
 	/**
 	 * Run the excel reader.
 	 *
-	 * @param args The args to parse
+	 * @param args The command line args to parse
 	 */
 	public static void main(String[] args) {
 
