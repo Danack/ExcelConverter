@@ -1,10 +1,7 @@
 package com.basereality.ExcelConverter;
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Vector;
 
 import net.sf.json.JSONArray;
@@ -13,10 +10,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class ExcelConverterTool {
 
-	private static int maxLines = 5000;
-
-
-	private static int maxData = maxLines * 200;
 
 	private static String filename = null;
 
@@ -33,6 +26,13 @@ public class ExcelConverterTool {
 		MAXDATA,
 		NUMBERFORMAT,
 	}
+
+	public static final String ARGUMENT_FILE = "-file";
+	public static final String ARGUMENT_FILE_BRIEF = "-f";
+
+	public static final String ARGUMENT_MAX_LINES = "-maxLines";
+	public static final String ARGUMENT_MAX_DATA = "-maxData";
+	public static final String ARGUMENT_NUMBER_FORMAT = "-number";
 
 
 	/**
@@ -89,7 +89,7 @@ public class ExcelConverterTool {
 		}
 
 		try {//We always try to read the file as an good OLE stream as some suppliers have the wrong
-			//file extension e.g. the file has an extension xls, but is actually CSV...				
+			//file extension e.g. the file has an extension xls, but is actually CSV...
 			stringsFromSpreadSheet = excelConverter.readInputStreamAsOLE(inputStream, 0);
 		} catch (IllegalArgumentException iae) {
 			System.err.println("Failed to parse the the stream as an OLE, so going to try as csv." + iae.getMessage());
@@ -124,7 +124,6 @@ public class ExcelConverterTool {
 
 		ArgumentType nextArgumentType = ArgumentType.NONE;
 
-
 		for (String argValue : args) {
 
 			boolean argumentMustBeFlag = false;
@@ -138,19 +137,21 @@ public class ExcelConverterTool {
 				}
 
 				case MAXLINES: {
-					maxLines = Integer.parseInt(argValue);
+					int maxLines = Integer.parseInt(argValue);
 					if (maxLines <= 0) {
 						throw new UnsupportedOperationException("Invalid max lines value [" + argValue + "]");
 					}
+					ExcelConverter.setMaxLines(maxLines);
 					nextArgumentType = ArgumentType.NONE;
 					break;
 				}
 
 				case MAXDATA: {
-					maxData = Integer.parseInt(argValue);
+					int maxData = Integer.parseInt(argValue);
 					if (maxData <= 0) {
 						throw new UnsupportedOperationException("Invalid max data value [" + argValue + "]");
 					}
+					ExcelConverter.setMaxData(maxData);
 					nextArgumentType = ArgumentType.NONE;
 					break;
 				}
@@ -175,14 +176,14 @@ public class ExcelConverterTool {
 			}
 
 			if (argumentMustBeFlag == true) {
-				if (argValue.compareTo("-file") == 0 ||
-						argValue.compareTo("-f") == 0) {
+				if (argValue.compareTo(ARGUMENT_FILE) == 0 ||
+						argValue.compareTo(ARGUMENT_FILE_BRIEF) == 0) {
 					nextArgumentType = ArgumentType.FILENAME;
-				} else if (argValue.compareTo("-maxLines") == 0) {
+				} else if (argValue.compareTo(ARGUMENT_MAX_LINES) == 0) {
 					nextArgumentType = ArgumentType.MAXLINES;
-				} else if (argValue.compareTo("-maxData") == 0) {
+				} else if (argValue.compareTo(ARGUMENT_MAX_DATA) == 0) {
 					nextArgumentType = ArgumentType.MAXDATA;
-				} else if (argValue.compareTo("-number") == 0) {
+				} else if (argValue.compareTo(ARGUMENT_NUMBER_FORMAT) == 0) {
 					nextArgumentType = ArgumentType.NUMBERFORMAT;
 				} else {
 					System.out.println("Unknown argument " + argValue);
@@ -215,5 +216,5 @@ public class ExcelConverterTool {
 		//json.setExpandElements(true);
 		System.out.println(json.toString());
 		System.exit(1);
-	}
+}
 }

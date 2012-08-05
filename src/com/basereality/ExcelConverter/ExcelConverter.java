@@ -38,9 +38,9 @@ public class ExcelConverter {
 
 	private Vector<Vector<String>> sheetContents = new Vector<Vector<String>>();
 
-	private static final int maxLines = 5000;
+	private static int maxLines = 5000;
 
-	private static final int maxData = maxLines * 200;
+	private static int maxData = maxLines * 200;
 
 	private static FormulaEvaluator evaluator = null;
 
@@ -58,6 +58,14 @@ public class ExcelConverter {
 
 	public ExcelConverter() {
 		setFormulaNumberMode("decimal");
+	}
+
+	public static void setMaxLines(int maxLines) {
+		ExcelConverter.maxLines = maxLines;
+	}
+
+	public static void setMaxData(int maxData) {
+		ExcelConverter.maxData = maxData;
 	}
 
 	/**
@@ -255,6 +263,10 @@ public class ExcelConverter {
 			ArrayList<String> rowCells = ExcelConverterUtil.parseCSV(strLine, "" + bestSeparator);
 
 			for (String string : rowCells) {
+
+
+
+
 				rowContents.add(string);
 			}
 

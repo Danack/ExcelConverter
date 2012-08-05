@@ -4,6 +4,22 @@ import java.util.ArrayList;
 
 public class ExcelConverterUtil {
 
+
+	public String forceUTF8String(String original){
+
+		try{
+			byte[] utf8Bytes = original.getBytes("UTF8");
+			return new String(utf8Bytes, "UTF8");
+		}
+		catch(java.io.UnsupportedEncodingException uee){
+
+			System.out.println("UnsupportedEncodingException converting string [" + original + "] to UTF8: " + uee.getMessage());
+		}
+
+		return original;
+	}
+
+
 	/**
 	 * get the Number of Times a Character Occurs In a String
 	 * @param needle
